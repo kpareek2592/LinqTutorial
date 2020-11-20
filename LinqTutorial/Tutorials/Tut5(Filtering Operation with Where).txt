@@ -1,0 +1,94 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTutorial
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            #region basic list operations
+            List<int> list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            //Fetch even numbers
+            var evenNum = (from num in list
+                          where num % 2 == 0
+                          select num).ToList();
+
+            //Fetch odd numbers
+            var oddNum = list.Where(x => x % 2 != 0).ToList(); //this gets numbers
+            var odd = list.Select(x => x % 2 != 0).ToList(); //gives true or false
+
+            List<string> strList = new List<string>() { "Nitish", "Aman", "Adam", "Pointing", "Sachin" };
+            var nameStarsWithA = strList.Where(x => x.StartsWith("A")).ToList();
+
+            #endregion
+
+            #region class operations
+            List<Employee> employee = new List<Employee>()
+            {
+                new Employee()
+                {
+                    Id = 1, 
+                    Name = "Tom", 
+                    Email = "tom@gmail.com",
+                    Programming = new List<Techs>
+                    {
+                        new Techs() {Technology = "C#" },
+                        new Techs(){Technology = "PHP" },
+                        new Techs() {Technology = ".NET" },
+                        new Techs() {Technology = "SQL"},
+                        new Techs() {Technology = "MONGO"}
+                    }
+                },
+                new Employee
+                {
+                    Id = 2,
+                    Name = "John",
+                    Email = "john@gmail.com",
+                    Programming = new List<Techs>
+                    {
+                        new Techs() {Technology = "C#"},
+                        new Techs(){Technology = "VB"},
+                        new Techs() {Technology = "SQL"}
+                    }}
+                ,
+                new Employee
+                {
+                    Id = 3,
+                    Name = "Mark",
+                    Email = "mark@gmail.com",
+                    Programming = new List<Techs>
+                    {
+                        new Techs() {Technology = "LINQ"},
+                        new Techs(){Technology = "MVC"}
+                    }},
+                new Employee{Id = 4, Name = "Kim", Email = "kim@gmail.com", Programming = new List<Techs>()},
+                new Employee{Id = 5, Name = "Adam", Email = "adam@gmail.com", Programming = new List<Techs>()}
+
+            };
+
+            //Find where no programming
+            var programmingCountZero = employee.Where(x => x.Programming.Count() == 0).ToList();
+
+            #endregion
+
+            Console.ReadKey();
+        }
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public List<Techs> Programming { get; set; }
+    }
+
+    public class Techs
+    {
+        public string Technology { get; set; }
+    }
+
+}
