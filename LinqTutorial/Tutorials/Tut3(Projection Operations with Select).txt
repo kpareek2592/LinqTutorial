@@ -1,0 +1,92 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTutorial
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Employee> employee = new List<Employee>()
+            {
+                new Employee{Id = 1, Name = "Tom", Email = "tom@gmail.com"},
+                new Employee{Id = 2, Name = "John", Email = "john@gmail.com"},
+                new Employee{Id = 3, Name = "Mark", Email = "mark@gmail.com"},
+                new Employee{Id = 4, Name = "Kim", Email = "kim@gmail.com"},
+                new Employee{Id = 5, Name = "Adam", Email = "adam@gmail.com"}
+            };
+
+            var basicQuery = (from emp in employee
+                             select emp).ToList();
+
+            //with method syntax no need to write Select()
+            var basicMethod = employee.ToList();
+
+            //Operations
+            //1. Select only id
+            var basicPropMethod = (from emp in employee
+                                   select emp.Id).ToList();
+
+            var basicMethodForId = employee.Select(x => x.Id).ToList();
+
+            //2. Increase id by 1
+             basicPropMethod = (from emp in employee
+                                   select emp.Id + 1).ToList();
+
+             basicMethodForId = employee.Select(x => x.Id+1).ToList();
+
+            //3. Convert id to string
+            var basicMethod1 = employee.Select(x => x.Id.ToString()).ToList();
+
+            //4. fetch only 2 properties
+            var selectQuery = (from emp in employee
+                               select new Employee()
+                               {
+                                   Id = emp.Id,
+                                   Email = emp.Email
+                               }).ToList();
+
+            // second way
+            selectQuery = employee.Select(x => new Employee() { Id = x.Id, Email = x.Email }).ToList();
+
+            //5. convert to new class
+            var selectStudentQuery = employee.Select(x => new Student() { StudentId = x.Id, StudentEmail = x.Email }).ToList();
+
+
+            //6. convert to anonymous type
+            var anonymousQuery = (from emp in employee
+                               select new 
+                               {
+                                   Id = emp.Id,
+                                   Email = emp.Email,
+                                   Name = emp.Name
+                               }).ToList();
+
+            //7. selecting data with index
+            var dataWithIndex = employee.Select((emp, index) => new { Index = index, Name = emp.Name }).ToList();
+
+            foreach (var item in selectQuery)
+            {
+                Console.WriteLine($"Id : {item.Id}, Name: {item.Name}, Email : {item.Email}");
+            }
+
+
+            Console.ReadKey();
+        }
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class Student
+    {
+        public int StudentId { get; set; }
+        public string StudentName { get; set; }
+        public string StudentEmail { get; set; }
+    }
+}
