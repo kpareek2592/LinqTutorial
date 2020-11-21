@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTutorial
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            #region order by with class
+
+            Student[] students =
+            {
+                new Student{
+                    Name="Kim", Marks=90,
+                           Subject = new List<Subject>(){
+                                new Subject(){SubjectName = "Math", SubjectMarks = 75},
+                                new Subject(){SubjectName = "English", SubjectMarks = 80},
+                                new Subject(){SubjectName = "Art", SubjectMarks = 86},
+                                new Subject(){SubjectName = "History", SubjectMarks = 91}
+                           } },
+                new Student{
+                    Name="John", Marks=80,
+                           Subject = new List<Subject>(){
+                                new Subject(){SubjectName = "Math", SubjectMarks = 89},
+                                new Subject(){SubjectName = "English", SubjectMarks = 91},
+                                new Subject(){SubjectName = "Art", SubjectMarks = 90},
+                                new Subject(){SubjectName = "History", SubjectMarks = 91}
+                           } },
+                new Student{
+                    Name="Lee", Marks=75,
+                           Subject = new List<Subject>(){
+                                new Subject(){SubjectName = "Math", SubjectMarks = 75},
+                                new Subject(){SubjectName = "English", SubjectMarks = 80},
+                                new Subject(){SubjectName = "Art", SubjectMarks = 60},
+                                new Subject(){SubjectName = "History", SubjectMarks = 91}
+                           } }
+            };
+
+            //whether all students have more than 70 marks
+            var methodSyntax = students.All(x => x.Marks > 80);
+            var querySyntax = (from stu in students
+                               select stu).All(x => x.Marks > 70);
+
+            // more than 70% in all subjects
+            var moreThan70PercentInAllsubjects = students.Where(x => x.Subject.All(y => y.SubjectMarks > 70)).Select(x=>x);
+
+            
+
+            #endregion
+
+            Console.ReadKey();
+        }
+    }
+
+    public class Student
+    {
+        public int Marks { get; set; }
+        public string Name { get; set; }
+        public List<Subject> Subject { get; set; }
+    }
+
+    public class Subject
+    {
+        public string SubjectName { get; set; }
+        public int SubjectMarks { get; set; }
+    }
+
+}
